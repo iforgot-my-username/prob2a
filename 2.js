@@ -1,15 +1,13 @@
+// Pure Function just depends only on its declared input parameters that is why I just made 
+// the DateNow as a parameter for hasEcpriredItems and getExprideItem
 
-Date.prototype.isAfter = function isAfter(other) {
-    return this < other
-}
-
-function hasExpiredItem(items) {
-    const isExpired = item => item.expDate.isAfter(new Date());
+const hasExpiredItem = (items, DateNow) => {
+    const isExpired = item => item.expDate < DateNow;
     return items.some(isExpired);
 }
 
-function getExpiredItem(items) {
-    const isExpired = item => item.expDate.isAfter(new Date());
+const getExpiredItem = (items, DateNow) => {
+    const isExpired = item => item.expDate < DateNow;
     return items.filter(isExpired);
 }
 
@@ -31,21 +29,12 @@ const shelf3 = [{ description: 'canned fish', expDate: new Date('2020, 09, 18') 
 
 
 //test
-console.log(hasExpiredItem(shelf1));
-printList(getExpiredItem(shelf1));
+console.log("Has Expired Item in : ", hasExpiredItem(shelf1, new Date("10-10-2021")));
+console.log(getExpiredItem(shelf1, new Date("10-10-2021")), "\n");
 
-console.log(hasExpiredItem(shelf2));
-printList(getExpiredItem(shelf2));
+console.log("Has Expired Item in shelf2: ", hasExpiredItem(shelf2, new Date("10-10-2021")));
+console.log(getExpiredItem(shelf2, new Date("10-10-2021")), "\n");
 
-console.log(hasExpiredItem(shelf3));
-printList(getExpiredItem(shelf3));
+console.log("Has Expired Item in shelf3: ", hasExpiredItem(shelf3, new Date("10-10-2021")));
+console.log(getExpiredItem(shelf3, new Date("10-10-2021")));
 
-
-//test 
-function printList(items) {
-    const print = (item) => {
-        console.log(`Item description: ${item.description}`)
-        console.log(`Item expDate: ${item.expDate.toDateString()} \n`)
-    }
-    items.map(print);
-}
