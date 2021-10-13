@@ -1,6 +1,6 @@
 const curseWords = ['crap', 'bitch', 'fuck', 'noob', 'shit', 'suck'];
 
-function cleanUp(str) {
+const cleanUp = (str) => {
     const censor = (match) => {
         const bits = match.split('');
         const [head, ...tail] = bits;
