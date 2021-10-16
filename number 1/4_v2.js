@@ -40,14 +40,15 @@ const randomize = (charList, randomizerList) => {
 }
 
 
-const generatePassword = (random11Numbers) => {
-    if (random11Numbers.length >= 11) {
-        const lettersNumbers = random11Numbers.slice(0, 8);
-        const numNumbers = random11Numbers.slice(8, 10);
-        const randomLetters = lettersNumbers.map(randomLetter);
-        const randomNumbers = numNumbers.map(randomNumber);
-        const randomSymbol = randomPunctutation(random11Numbers[10]);
-        return randomize(randomLetters.concat(randomNumbers).concat(randomSymbol), random11Numbers).join('');
+const generatePassword = (randomizers) => {
+    if (randomizers.length >= 11) {
+        const process = (randomizer, index) => {
+            if (index < 8) {
+                return randomLetter(randomizer)
+            }
+            return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer)
+        }
+        return randomizeItems(randomizers.map(process), randomizers).join('');
     }
 }
 
