@@ -10,7 +10,7 @@ const randomPunctutation = (randomNumber) => {
 
 const randomNumber = (randomNumber) => Math.trunc(randomNumber * 10);
 
-const randomize = (charList, randomizerList) => {
+const randomizeItems = (charList, randomizerList) => {
     const [numHead, ...numTail] = randomizerList;
     if (numHead === undefined) {
         return [...charList];
@@ -18,7 +18,7 @@ const randomize = (charList, randomizerList) => {
     const index = Math.trunc(numHead * charList.length);
     const copy = [...charList];
     copy.splice(index, 1);
-    return [charList[index], ...randomize(copy, numTail)];
+    return [charList[index], ...randomizeItems(copy, numTail)];
 }
 
 
@@ -30,15 +30,22 @@ const generatePassword = (randomizers) => {
             }
             return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer);
         }
-        return randomize(randomizers.map(process), randomizers).join('');
+        return randomizeItems(randomizers.map(process), randomizers).join('');
     }
 }
 
 const changePassword = (account, random11Numbers) => {
-    const clone = { ...account };
-    clone.password = generatePassword(random11Numbers);
-    return clone;
-
+    const json = JSON.stringify(account);
+    const processClone = (bits) => {
+        if (bits.includes("password")) {
+            const bit = bits.split(":");
+            const password = generatePassword(random11Numbers);
+            return bit[0] + `:"${password}"`;
+        }
+        return bits;
+    }
+    const bits = json.split(",");
+    return JSON.parse(bits.map(processClone).join(","));
 }
 
 
@@ -104,7 +111,7 @@ const randomizer = [
 ];
 
 // console.log('change password:', changePassword(listOfStudents[1], randomizer))
-// console.log('original:', listOfStudents[1])
-console.log('change password:', findIdChangePassword(21152364, listOfStudents, randomizer));
 console.log('original:', listOfStudents);
-
+console.log('change password student 1:', findIdChangePassword(20047798, listOfStudents, randomizer));
+// console.log(findIdChangePassword(21152364, listOfStudents, randomizer))
+// console.log('original:', listOfStudents)
