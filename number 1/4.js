@@ -8,53 +8,62 @@ const removeSpaces = (str) => {
     return str.trim().split(' ').join('');
 }
 
-const randomLetter = (randomizer) => {
-    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    return letters[Math.trunc(randomizer * letters.length)];
+
+const generateEmail = (student) => {
+    const firstName = removeSpaces(student.firstName);
+    const lastName = removeSpaces(student.lastName);
+    const idNum = student.idNum.toString().slice(0, 2);
+    return firstName.toLowerCase() + '.' + lastName.toLowerCase() + idNum + '@cpu.edu.ph';
 }
 
-const randomPunctutation = (randomizer) => {
+const randomLetter = (randomNumber) => {
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    return letters[Math.trunc(randomNumber * letters.length)];
+}
+
+const randomPunctutation = (randomNumber) => {
     const punctutations = ['.', '!', '?'];
-    return punctutations[Math.trunc(randomizer * 3)];
+    return punctutations[Math.trunc(randomNumber * 3)];
 };
 
-const randomDigit = (randomizer) => Math.trunc(randomizer * 10);
+const randomNumber = (randomNumber) => Math.trunc(randomNumber * 10);
 
-
-
-
-
-const generateAccounts = (studentList, randomizerList) => {
-
-    const generateEmail = (student) => {
-        const firstName = removeSpaces(student.firstName);
-        const lastName = removeSpaces(student.lastName);
-        const idNum = student.idNum.toString().slice(0, 2);
-        return firstName.toLowerCase() + '.' + lastName.toLowerCase() + idNum + '@cpu.edu.ph';
+const randomize = (charList, randomizerList) => {
+    const [numHead, ...numTail] = randomizerList;
+    if (numHead === undefined) {
+        return [...charList];
     }
-
-    const generatePassword = (radomizer11) => {
-        const lettersNumbers = radomizer11.slice(0, 9);
-        const numberNumbers = radomizer11.slice(8, 10);
-        const randomLetters = lettersNumbers.map(randomLetter);
-        const randomNumbers = numberNumbers.map(randomDigit);
-        const randomSymbol = randomPunctutation(radomizer11[10]);
-        return randomLetters.join('') + randomNumbers.join('') + randomSymbol;
-    }
-    const indexOf = (student) => studentList.indexOf(student);
-
-
-    const generateAccount = (student) => {
-        return { email: generateEmail(student), password: generatePassword(randomizerList[indexOf(student)]) };
-
-    }
-
-
-    return studentList.map(generateAccount);
-
+    const index = Math.trunc(numHead * charList.length);
+    const copy = [...charList];
+    copy.splice(index, 1);
+    return [charList[index], ...randomize(copy, numTail)];
 }
 
 
+const generatePassword = (randomizers) => {
+    if (randomizers.length >= 11) {
+        const process = (randomizer, index) => {
+            if (index < 8) {
+                return randomLetter(randomizer)
+            }
+            return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer)
+        }
+        return randomizeItems(randomizers.map(process), randomizers).join('');
+    }
+}
+
+const indexOf = (student) => studentList.indexOf(student)
+
+const generateAccounts = (studentList, randomNumberList) => {
+    const generateAccount = (student) => {
+        return { email: generateEmail(student), password: generatePassword(randomNumberList[indexOf(student)]) };
+
+    }
+    return studentList.map(generateAccount);
+}
+
+
+//text codes
 
 const studentList = [
     { firstName: 'Juan', lastName: 'Dela cruz', idNum: 20047798, course: 'BSSE', year: 2 },
@@ -90,7 +99,7 @@ const randomNumberList = [
         0.4096200728688917,
         0.7069796176550716,
         0.20055829708853645,
-        0.29977855602440906
+        0.99977855602440906
     ],
     [
         0.839750607062079,
@@ -148,7 +157,5 @@ const randomNumberList = [
 
 console.log("year 2 students", getStudentsInYear(2, studentList));
 console.log("year 1 students", getStudentsInYear(1, studentList));
-console.log('accounts', generateAccounts(studentList, randomNumberList));
-
-
+console.log("accounts", generateAccounts(studentList, randomNumberList));
 
