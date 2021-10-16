@@ -1,8 +1,8 @@
 const randomLetter = (randomNumber) => {
-    const CHAR_LETTER_MIN = 97
-    const ALPHABET_RANGE = 26
-    const randomCharCode = Math.trunc(randomNumber * ALPHABET_RANGE) + CHAR_LETTER_MIN
-    return String.fromCharCode(randomCharCode)
+    const CHAR_LETTER_MIN = 97;
+    const ALPHABET_RANGE = 26;
+    const randomCharCode = Math.trunc(randomNumber * ALPHABET_RANGE) + CHAR_LETTER_MIN;
+    return String.fromCharCode(randomCharCode);
 }
 
 const randomPunctutation = (randomNumber) => {
@@ -28,18 +28,18 @@ const generatePassword = (randomizers) => {
     if (randomizers.length >= 11) {
         const process = (randomizer, index) => {
             if (index < 8) {
-                return randomLetter(randomizer)
+                return randomLetter(randomizer);
             }
-            return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer)
+            return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer);
         }
         return randomizeItems(randomizers.map(process), randomizers).join('');
     }
 }
 
 const changePassword = (account, newPassword) => {
-    const jsonStr = JSON.stringify(account, null, ' ')
+    const jsonStr = JSON.stringify(account, null, ' ');
     const password = /"password": ".*"/gi;
-    const newPasswordAtrb = `"password":"${newPassword}"`
+    const newPasswordAtrb = `"password":"${newPassword}"`;
     const newJsonStr = jsonStr.replace(password, newPasswordAtrb);
     return JSON.parse(newJsonStr);
 }
@@ -104,12 +104,12 @@ const randomizer = [
     0.7549752912758458,
     0.46122042984235523,
     0.8006839136019155
-]
+];
 
 // console.log('change password:', changePassword(listOfStudents[1], 'hagado'))
-console.log('original:', listOfStudents)
-console.log('change password by random Student 1: ', findIdChangePassword(20047798, listOfStudents, generatePassword(randomizer)))
-console.log('change password define password Student 1:', findIdChangePassword(20047798, listOfStudents, 'HAGADOOo-THISisMyPassword2021'))
+console.log('original:', listOfStudents);
+console.log('change password by random Student 1: ', findIdChangePassword(20047798, listOfStudents, generatePassword(randomizer)));
+console.log('change password define password Student 1:', findIdChangePassword(20047798, listOfStudents, 'HAGADOOo-THISisMyPassword2021'));
 // console.log(findIdChangePassword(21152364, listOfStudents, randomizer))
 // console.log('original:', listOfStudents)
 

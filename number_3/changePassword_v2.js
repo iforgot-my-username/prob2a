@@ -26,26 +26,26 @@ const generatePassword = (randomizers) => {
     if (randomizers.length >= 11) {
         const process = (randomizer, index) => {
             if (index < 8) {
-                return randomLetter(randomizer)
+                return randomLetter(randomizer);
             }
-            return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer)
+            return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer);
         }
         return randomizeItems(randomizers.map(process), randomizers).join('');
     }
 }
 
 const changePassword = (account, random11Numbers) => {
-    const json = JSON.stringify(account)
+    const json = JSON.stringify(account);
     const processClone = (bits) => {
         if (bits.includes("password")) {
-            const bit = bits.split(":")
+            const bit = bits.split(":");
             const password = generatePassword(random11Numbers);
-            return bit[0] + `:"${password}"`
+            return bit[0] + `:"${password}"`;
         }
-        return bits
+        return bits;
     }
     const bits = json.split(",");
-    return JSON.parse(bits.map(processClone).join(","))
+    return JSON.parse(bits.map(processClone).join(","));
 }
 
 
@@ -108,10 +108,10 @@ const randomizer = [
     0.7549752912758458,
     0.46122042984235523,
     0.8006839136019155
-]
+];
 
 // console.log('change password:', changePassword(listOfStudents[1], randomizer))
-console.log('original:', listOfStudents)
-console.log('change password student 1:', findIdChangePassword(20047798, listOfStudents, randomizer))
+console.log('original:', listOfStudents);
+console.log('change password student 1:', findIdChangePassword(20047798, listOfStudents, randomizer));
 // console.log(findIdChangePassword(21152364, listOfStudents, randomizer))
 // console.log('original:', listOfStudents)
