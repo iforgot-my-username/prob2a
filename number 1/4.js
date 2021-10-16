@@ -40,7 +40,6 @@ const randomize = (charList, randomizerList) => {
 }
 
 
-
 const generatePassword = (randomizers) => {
     if (randomizers.length >= 11) {
         const process = (randomizer, index) => {
@@ -49,15 +48,15 @@ const generatePassword = (randomizers) => {
             }
             return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer)
         }
-        return randomize(randomizers.map(process), randomizers).join('');
+        return randomizeItems(randomizers.map(process), randomizers).join('');
     }
 }
 
-
+const indexOf = (student) => studentList.indexOf(student)
 
 const generateAccounts = (studentList, randomNumberList) => {
-    const generateAccount = (student, index) => {
-        return { email: generateEmail(student), password: generatePassword(randomNumberList[index]) };
+    const generateAccount = (student) => {
+        return { email: generateEmail(student), password: generatePassword(randomNumberList[indexOf(student)]) };
 
     }
     return studentList.map(generateAccount);
