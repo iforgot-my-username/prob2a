@@ -24,13 +24,16 @@ const randomizeItems = (charList, randomizerList) => {
 }
 
 
-const generatePassword = (radomizer11) => {
-    const lettersNumbers = radomizer11.slice(0, 9);
-    const numberNumbers = radomizer11.slice(8, 10);
-    const randomLetters = lettersNumbers.map(randomLetter);
-    const randomNumbers = numberNumbers.map(randomDigit);
-    const randomSymbol = randomPunctutation(radomizer11[10]);
-    return randomLetters.join('') + randomNumbers.join('') + randomSymbol;
+const generatePassword = (randomizers) => {
+    if (randomizers.length >= 11) {
+        const process = (randomizer, index) => {
+            if (index < 8) {
+                return randomLetter(randomizer);
+            }
+            return index < 10 ? randomNumber(randomizer) : randomPunctutation(randomizer);
+        }
+        return randomizeItems(randomizers.map(process), randomizers).join('');
+    }
 }
 
 const changePassword = (account, newPassword) => {
