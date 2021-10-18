@@ -4,10 +4,11 @@ const sizeUp = (newServing, recipe) => {
     const ingredients = recipe.ingredients;
     const scale = newServing / recipe.serves;
     const changeQuantitiy = (ingredient) => {
-        const copy = { ...ingredient };
-        const newQuantity = round(ingredient.quantity * scale, 2);
-        copy.quantity = newQuantity;
-        return copy
+        const jsonStr = JSON.stringify(ingredient);
+        const quantity = /"quantity":\d+(\.\d+)?/gi;
+        const newQuantity = '"quantity":' + round(ingredient.quantity * scale, 2);
+        const newJsonStr = jsonStr.replace(quantity, newQuantity);
+        return JSON.parse(newJsonStr);
     }
     const newIngredients = ingredients.map(changeQuantitiy);
     return { name: recipe.name, serves: newServing, ingredients: newIngredients };
@@ -21,6 +22,4 @@ const Spaghetti = {
         { quantity: 500, unit: 'g', name: 'pasta' },
         { quantity: 1, unit: 'pc', name: 'onion' }]
 }
-
-console.log('original recipe: ', Spaghetti);
-console.log('Increse serving to 6: ', sizeUp(6, Spaghetti));
+console.log(sizeUp(6, Spaghetti));
