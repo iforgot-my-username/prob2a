@@ -25,7 +25,7 @@ const billOut = (cart, applyCoupon) => {
     }
     const summary = cart.reduce(addAllPrice, undefined);
     if (applyCoupon && summary.microsoftProducts >= 3 && summary.microsoftProductsPrice > 6000) {
-        return round(summary.bill - (summary.bill * discount));
+        return round(summary.bill - (summary.bill * discount), 2)
     }
     return round(summary.bill);
 }
@@ -37,4 +37,4 @@ const cart1 = [
     { productName: 'microsoft powerPoint', seller: 'microsoFt', price: 2000 },
     { productName: 'adobe dc', seller: 'adobe', price: 300 },
 ]
-console.log(billOut(cart1, true))
+console.log('total bill: ', billOut(cart1, true));

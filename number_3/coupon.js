@@ -19,9 +19,8 @@ const billOut = (cart, applyCoupon) => {
     }
 
     const summary = cart.reduce(addAllPrice, 0);
-    console.log(microsoftProducts);
     if (applyCoupon && microsoftProducts >= 3 && microsoftProductsPrice > 6000) {
-        return round(summary - (summary * discount));
+        return round(summary - (summary * discount), 2);
     }
     return round(summary);
 
@@ -36,4 +35,4 @@ const cart1 = [
 ];
 
 
-console.log(billOut(cart1, true));
+console.log('total bill: ', billOut(cart1, true));

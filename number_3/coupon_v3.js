@@ -18,7 +18,7 @@ const billOut = (cart, applyCoupon) => {
     });
     const discount = 0.15;
     if (applyCoupon && microsoftCount >= 3 && microsoftProductsTotal >= 6000) {
-        return round(total - (total * discount));
+        return round(total - (total * discount), 2);
     }
     return total;
 }
@@ -29,6 +29,7 @@ const cart1 = [
     { productName: 'microsoft word', seller: 'microsoft', price: 6500 },
     { productName: 'microsoft powerPoint', seller: 'microsoft', price: 200 },
     { productName: 'microsoft powerPoint', seller: 'microsoFt', price: 300 },
+    { productName: 'microsoft powerPoint', seller: 'microsoFt', price: 300 },
     { productName: 'adobe dc', seller: 'adobe', price: 300 },
 ];
-console.log(billOut(cart1, true));
+console.log('total bill: ', billOut(cart1, true));
