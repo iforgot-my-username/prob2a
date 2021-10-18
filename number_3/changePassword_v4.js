@@ -10,7 +10,7 @@ const randomPunctutation = (randomNumber) => {
     return punctutations[Math.trunc(randomNumber * 3)];
 };
 
-const randomNumber = (randomNumber) => Math.trunc(randomNumber * 10);
+const randomDigit = (randomNumber) => Math.trunc(randomNumber * 10);
 
 const randomizeItems = (charList, randomizerList) => {
     const [numHead, ...numTail] = randomizerList;
