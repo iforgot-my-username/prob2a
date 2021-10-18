@@ -18,7 +18,7 @@ const billOut = (cart, applyCoupon) => {
     });
     const discount = 0.15;
     if (applyCoupon && microsoftCount >= 3 && microsoftProductsTotal >= 6000) {
-        return round(total - (total * discount));
+        return round(total - (total * discount), 2);
     }
     return total;
 }
